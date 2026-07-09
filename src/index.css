@@ -2590,3 +2590,171 @@ html, body {
     white-space: nowrap;
   }
 }
+
+/* ==========================================================================
+   🌐 DESKTOP NAVIGATION STYLES (Default layout)
+   ========================================================================== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(10px);
+  z-index: 1000;
+  box-sizing: border-box;
+}
+
+.navbar-brand a {
+  font-weight: 800;
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 1px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-menu a {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+  color: #FFD700; /* Custom gold UI accent color */
+}
+
+.nav-cta-btn {
+  border: 1px solid #FFD700;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  color: #FFD700 !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease !important;
+}
+
+/* ✅ THE FIX */
+.nav-cta-btn:hover {
+  background: #FFD700;
+  color: #0a0a0a !important; /* Spaces removed! */
+}
+
+/* Hide the hamburger button on Desktop view */
+.nav-toggle {
+  display: none;
+}
+
+/* ==========================================================================
+   📱 MOBILE SIDE DRAWER NAVIGATION (Screens 768px and smaller)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 0 1.5rem;
+    height: 70px;
+  }
+
+  /* 1. Turn the nav links into a sliding sidebar panel */
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: -100%; /* Hidden off-screen completely by default */
+    width: 280px;  /* Clean panel sizing */
+    height: 100vh;
+    background: #111111; /* Solid premium dark background */
+    border-left: 1px solid rgba(255, 215, 0, 0.15); /* Subtle gold boundary line */
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 90px 2rem 2rem 2rem; /* Clearance for top toggle bar */
+    gap: 2rem;
+    z-index: 1001;
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1); /* Ultra-smooth glide physics */
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+    box-sizing: border-box;
+  }
+
+  /* When the active state hits, translate the menu into view */
+  .nav-menu.active {
+    transform: translateX(-100%); 
+  }
+
+  .nav-menu a {
+    font-size: 1.2rem; /* Make clickable tap options larger on phones */
+    width: 100%;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .nav-cta-wrapper {
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .nav-cta-btn {
+    display: block;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* 2. Style & Build the CSS Hamburger Toggles */
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 26px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1002; /* Floating above the panel layer */
+  }
+
+  .hamburger-bar {
+    width: 100%;
+    height: 2px;
+    background-color: #fff;
+    transition: all 0.3s ease;
+    transform-origin: left center;
+  }
+
+  /* Transform individual bars smoothly into an 'X' icon when triggered open */
+  .nav-toggle.open .hamburger-bar:nth-child(1) {
+    transform: rotate(45deg) translateY(-2px);
+    background-color: #FFD700;
+  }
+
+  .nav-toggle.open .hamburger-bar:nth-child(2) {
+    opacity: 0; /* Clear middle structural bar */
+  }
+
+  .nav-toggle.open .hamburger-bar:nth-child(3) {
+    transform: rotate(-45deg) translateY(2px);
+    background-color: #FFD700;
+  }
+
+  /* 3. Dark Dimmer Background Overlay */
+  .nav-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 999;
+  }
+}

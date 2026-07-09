@@ -1,15 +1,26 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, Link } from 'react-router-dom'
 
 export default function NavBar() {
-  const navRef = useRef(null)
-  const brgrRef = useRef(null)
-  const mmRef = useRef(null)
+  // Pure React states replacing your old classList mutations
+  const [isScrolled, setIsScrolled] = useState(false)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const location = useLocation()
   const navigate = useNavigate()
 
+  // Clean, reactive window scroll tracker
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 40)
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   const handleNav = (section) => {
+    setIsMenuOpen(false) // Automatically collapses mobile menu when navigating
+    
     if (location.pathname !== '/') {
       navigate(`/#${section}`)
     } else {
@@ -19,40 +30,13 @@ export default function NavBar() {
     }
   }
 
-  useEffect(() => {
-    const nav = navRef.current
-    const brgr = brgrRef.current
-    const mm = mmRef.current
+  const toggleMenu = () => {
+    setIsMenuOpen(prev => !prev)
+  }
 
-    if (!nav || !brgr || !mm) return
-
-    const onScroll = () => {
-      nav.classList.toggle('on', window.scrollY > 40)
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true })
-
-    const toggleMenu = () => {
-      brgr.classList.toggle('open')
-      mm.classList.toggle('open')
-    }
-
-    const closeMenu = () => {
-      brgr.classList.remove('open')
-      mm.classList.remove('open')
-    }
-
-    brgr.addEventListener('click', toggleMenu)
-
-    const links = mm.querySelectorAll('a')
-    links.forEach(a => a.addEventListener('click', closeMenu))
-
-    return () => {
-      window.removeEventListener('scroll', onScroll)
-      brgr.removeEventListener('click', toggleMenu)
-      links.forEach(a => a.removeEventListener('click', closeMenu))
-    }
-  }, [])
+  const closeMenu = () => {
+    setIsMenuOpen(false)
+  }
 
   const navLink = (section, label) => (
     <a
@@ -67,7 +51,8 @@ export default function NavBar() {
   )
 
   return (
-    <nav id="nav" className="nav-master-container" ref={navRef}>
+    /* Matches your existing CSS scroll class trigger (.nav-master-container.on) */
+    <nav id="nav" className={`nav-master-container ${isScrolled ? 'on' : ''}`}>
       <div className="nav-in">
 
         <a
@@ -87,7 +72,6 @@ export default function NavBar() {
           <li>{navLink('services', 'Services')}</li>
           <li>{navLink('experience', 'Experience')}</li>
           <li>{navLink('testimonials', 'Testimonials')}</li>
-          {/* New Page-Based Route Link */}
           <li>
             <Link to="/articles">Articles</Link>
           </li>
@@ -104,7 +88,12 @@ export default function NavBar() {
           Book Interview →
         </a>
 
-        <button className="brgr" ref={brgrRef} aria-label="Toggle menu">
+        {/* Hamburger Menu Toggle - Matches your existing CSS (.brgr.open) */}
+        <button 
+          className={`brgr ${isMenuOpen ? 'open' : ''}`} 
+          onClick={toggleMenu} 
+          aria-label="Toggle menu"
+        >
           <span />
           <span />
           <span />
@@ -112,14 +101,15 @@ export default function NavBar() {
 
       </div>
 
-      {/* Mobile Links Overlay Menu */}
-      <div className="mmenu" ref={mmRef}>
+      {/* Mobile Links Overlay Menu - Matches your existing CSS (.mmenu.open) */}
+      <div className={`mmenu ${isMenuOpen ? 'open' : ''}`}>
         {navLink('about', 'About')}
         {navLink('services', 'Services')}
         {navLink('experience', 'Experience')}
         {navLink('testimonials', 'Testimonials')}
-        {/* New Mobile Link Element */}
-        <Link to="/articles">Articles</Link>
+        
+        {/* Explicitly closes the side panel when routing away to the articles layout */}
+        <Link to="/articles" onClick={closeMenu}>Articles</Link>
 
         <a
           href="#book"
