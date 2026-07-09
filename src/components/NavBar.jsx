@@ -1,9 +1,23 @@
 import { useEffect, useRef } from 'react'
+import { useLocation, useNavigate, Link } from 'react-router-dom'
 
 export default function NavBar() {
   const navRef = useRef(null)
   const brgrRef = useRef(null)
   const mmRef = useRef(null)
+
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const handleNav = (section) => {
+    if (location.pathname !== '/') {
+      navigate(`/#${section}`)
+    } else {
+      document.getElementById(section)?.scrollIntoView({
+        behavior: 'smooth'
+      })
+    }
+  }
 
   useEffect(() => {
     const nav = navRef.current
@@ -40,35 +54,81 @@ export default function NavBar() {
     }
   }, [])
 
+  const navLink = (section, label) => (
+    <a
+      href={`#${section}`}
+      onClick={(e) => {
+        e.preventDefault()
+        handleNav(section)
+      }}
+    >
+      {label}
+    </a>
+  )
+
   return (
     <nav id="nav" className="nav-master-container" ref={navRef}>
       <div className="nav-in">
-        <a href="#hero" className="logo-brand">
+
+        <a
+          href="#hero"
+          className="logo-brand"
+          onClick={(e) => {
+            e.preventDefault()
+            handleNav('hero')
+          }}
+        >
           JP <span className="gold-pipe">|</span> VA
         </a>
 
+        {/* Desktop Links Menu */}
         <ul className="nlinks">
-          <li><a href="#about">About</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#experience">Experience</a></li>
-          <li><a href="#testimonials">Testimonials</a></li>
+          <li>{navLink('about', 'About')}</li>
+          <li>{navLink('services', 'Services')}</li>
+          <li>{navLink('experience', 'Experience')}</li>
+          <li>{navLink('testimonials', 'Testimonials')}</li>
+          {/* New Page-Based Route Link */}
+          <li>
+            <Link to="/articles">Articles</Link>
+          </li>
         </ul>
 
-        <a href="#book" className="ncta">
+        <a
+          href="#book"
+          className="ncta"
+          onClick={(e) => {
+            e.preventDefault()
+            handleNav('book')
+          }}
+        >
           Book Interview →
         </a>
 
         <button className="brgr" ref={brgrRef} aria-label="Toggle menu">
-          <span /><span /><span />
+          <span />
+          <span />
+          <span />
         </button>
+
       </div>
 
+      {/* Mobile Links Overlay Menu */}
       <div className="mmenu" ref={mmRef}>
-        <a href="#about">About</a>
-        <a href="#services">Services</a>
-        <a href="#experience">Experience</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#book" className="btn-y">
+        {navLink('about', 'About')}
+        {navLink('services', 'Services')}
+        {navLink('experience', 'Experience')}
+        {navLink('testimonials', 'Testimonials')}
+        {/* New Mobile Link Element */}
+        <Link to="/articles">Articles</Link>
+
+        <a
+          href="#book"
+          className="btn-y"
+          onClick={(e) => {
+            e.preventDefault()
+            handleNav('book')
+          }}
+        >
           Book Interview →
         </a>
       </div>
