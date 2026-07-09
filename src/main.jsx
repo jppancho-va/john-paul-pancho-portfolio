@@ -10,6 +10,9 @@ import Articles from './pages/Articles.jsx'
 import MedicalVirtualAssistant from './pages/MedicalVirtualAssistant.jsx'
 import MedicalVirtualAssistantWorkflow from './pages/MyDailyWorkflow.jsx'
 import InsuranceVerificationWorkflow from './pages/InsuranceVerification.jsx'
+import ClientSuccessRevenueOps from './pages/ClientSuccessRevenueOps.jsx'
+import EcommerceOperations from './pages/EcommerceOperations.jsx'
+import CustomerServiceOperations from './pages/CustomerServiceOperations.jsx'
 
 import './index.css'
 
@@ -64,6 +67,36 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           element={
             <MainLayout>
               <InsuranceVerificationWorkflow />
+            </MainLayout>
+          }
+        />
+
+        {/* Article 4: Scaling High-Ticket Sales (RevOps) */}
+        <Route
+          path="/articles/client-success-revenue-ops"
+          element={
+            <MainLayout>
+              <ClientSuccessRevenueOps />
+            </MainLayout>
+          }
+        />
+
+        {/* Article 5: From Checkout to Doorstep (E-Commerce Operations) */}
+        <Route
+          path="/articles/ecommerce-operations"
+          element={
+            <MainLayout>
+              <EcommerceOperations />
+            </MainLayout>
+          }
+        />
+
+        {/* Article 6: Architecting the Perfect Helpdesk (Customer Service Ops) */}
+        <Route
+          path="/articles/customer-service-operations"
+          element={
+            <MainLayout>
+              <CustomerServiceOperations />
             </MainLayout>
           }
         />
