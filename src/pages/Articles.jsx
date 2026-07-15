@@ -68,8 +68,8 @@ export default function Articles() {
         <div className="masthead-line"></div>
 
         <p className="masthead-subtitle">
-          Real-world insights, automated workflows, and structural blueprints from a 
-          Specialized Virtual Assistant supporting high-growth brands, e-commerce storefronts, and modern healthcare practices.
+          Real-world insights, Automated Workflows, and Structural Blueprints from a 
+          Specialized Virtual Assistant supporting High-Growth Brands, E-commerce Storefronts, and Modern Healthcare Practices.
         </p>
 
       </header>
@@ -83,8 +83,33 @@ export default function Articles() {
             className="newspaper-card"
           >
 
-            <div className="article-number">
-              {article.number}
+            <div className="article-header">
+              <div className="article-number">
+                {article.number}
+              </div>
+              <button 
+                className="share-btn" 
+                onClick={() => {
+                  const shareUrl = `${window.location.origin}${article.link}`;
+                  if (navigator.share) {
+                    navigator.share({
+                      title: article.title,
+                      text: `Check out this article: ${article.title}`,
+                      url: shareUrl
+                    }).catch((err) => console.log("Share canceled or failed", err));
+                  } else {
+                    const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+                    window.open(facebookShareUrl, '_blank', 'width=600,height=400,noopener,noreferrer');
+                  }
+                }}
+                aria-label="Share article"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                  <polyline points="16 6 12 2 8 6"></polyline>
+                  <line x1="12" y1="2" x2="12" y2="15"></line>
+                </svg>
+              </button>
             </div>
 
             <span className="article-category">

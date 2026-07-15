@@ -2590,3 +2590,52 @@ html, body {
     white-space: nowrap;
   }
 }
+
+/* ===================================================
+   THE OPERATIONS CHRONICLE - GRID CARDS (HEADER & SHARE)
+=================================================== */
+
+/* Container that holds both the number and the share button */
+.article-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 25px; /* Adjust if you want more/less space before the category label */
+}
+
+/* We ensure the existing number style stays locked in place */
+.article-number {
+  font-family: Georgia, serif; /* Matches your newspaper aesthetic */
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+/* Minimalist Gold Share Button */
+.share-btn {
+  background: none;
+  border: none;
+  color: #c9a227; /* Matches your exact gold accent color */
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: color 0.25s ease, transform 0.2s ease, background-color 0.25s ease;
+  outline: none;
+}
+
+/* Subtle hover feedback */
+.share-btn:hover {
+  color: #ffffff; /* Turns bright white on hover */
+  background-color: rgba(255, 255, 255, 0.05); /* Soft background glow */
+  transform: translateY(-2px); /* Slight lift animation */
+}
+
+/* Focus state for accessibility */
+.share-btn:focus-visible {
+  outline: 2px solid #c9a227;
+}
